@@ -20,6 +20,7 @@ public class Score : MonoBehaviour
         {
             scoreText.text = playerTransform.position.z.ToString("0");
         }
+       
         
     }
 }

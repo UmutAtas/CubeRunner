@@ -5,39 +5,38 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody prb;
+    public float forwardForce = 40f;
 
-    public float forwardForce;
+    private SwerveInput swerveInput;
+    [SerializeField] private float swerveSpeed = 0.5f;
+    [SerializeField] private float maxSwerve = 1f;
 
-    public float sideForce;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    private void Awake()
     {
-        
+        swerveInput = GetComponent<SwerveInput>();
+    }
+
+    private void Update()
+    {
+        HandleInput();
+        float swerveAmount = swerveInput.MoveFactorX * swerveSpeed * Time.deltaTime;
+        swerveAmount = Mathf.Clamp(swerveAmount, -maxSwerve, maxSwerve);
+        transform.Translate(swerveAmount, 0, 0);
+        print(forwardForce);
     }
 
     private void FixedUpdate()
     {
         prb.AddForce(0, 0, forwardForce);
-        HandleInput();
     }
 
     private void HandleInput()
     {
-        if (Input.GetKey("a"))
-        {
-            prb.AddForce(-sideForce, 0, 0 , ForceMode.VelocityChange);
-        }
-        if (Input.GetKey("d"))
-        {
-            prb.AddForce(sideForce, 0, 0 , ForceMode.VelocityChange);
-        }
         if (prb.position.y < 4f)
         {
             FindObjectOfType<GameManager>().EndGame();
