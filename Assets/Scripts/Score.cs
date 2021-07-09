@@ -7,20 +7,20 @@ public class Score : MonoBehaviour
 {
     public Transform playerTransform;
     public Text scoreText;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static float storeScore;
+    private GameManager _gameManager;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+        storeScore = LevelManager.keepScore;
+    }
     void Update()
     {
-        if (FindObjectOfType<GameManager>().gameEnd == false)
+        if (_gameManager.gameEnd == false)
         {
-            scoreText.text = playerTransform.position.z.ToString("0");
+            storeScore += playerTransform.position.z/100;
+            scoreText.text = storeScore.ToString("0");
         }
-       
-        
     }
 }

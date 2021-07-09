@@ -12,6 +12,15 @@ public class GameManager : MonoBehaviour
     public GameObject startText;
     public Text levelCounter;
     public GameObject finishText;
+    public GameObject die;
+    private PlayerMovement _playerMovement;
+    private Score _score;
+
+    private void Awake()
+    {
+        _score = FindObjectOfType<Score>();
+        _playerMovement = FindObjectOfType<PlayerMovement>();
+    }
 
     private void Start()
     {
@@ -32,17 +41,19 @@ public class GameManager : MonoBehaviour
         if (isStart && !gameEnd)
         {
             startText.SetActive(false);
-            FindObjectOfType<PlayerMovement>().enabled = true;
+            _playerMovement.enabled = true;
         }   
         else if (!isStart)
-            FindObjectOfType<PlayerMovement>().enabled = false;
-        levelCounter.text = "LEVEL: " + (LevelComplete.levelIndex+1).ToString(); 
+            _playerMovement.enabled = false;
+
+        levelCounter.text = "LEVEL: " + (LevelComplete.levelIndex + 1);
     }
 
     public void CompleteLevel()
     {
         completeUI.SetActive(true);
-        FindObjectOfType<PlayerMovement>().forwardForce += 5;
+        _playerMovement.forwardForce = 0;
+        _playerMovement.prb.velocity = Vector3.zero;
     }
 
     public void EndGame()
@@ -50,7 +61,8 @@ public class GameManager : MonoBehaviour
         if (gameEnd == false)
         {
             gameEnd = true;
-            FindObjectOfType<Score>().scoreText.text = "YOU DIED";
+            _score.scoreText.enabled = false;
+            die.SetActive(true);
             Invoke("Restart", 4f);
             LevelComplete.levelIndex = 0;
         }

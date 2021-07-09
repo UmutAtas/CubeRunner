@@ -9,6 +9,7 @@ public class LevelComplete : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        PlayerPrefs.SetFloat("Score", Score.storeScore);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         levelIndex += 1;
     }

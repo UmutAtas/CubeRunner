@@ -10,14 +10,11 @@ public class PlayerMovement : MonoBehaviour
     private SwerveInput swerveInput;
     [SerializeField] private float swerveSpeed = 0.5f;
     [SerializeField] private float maxSwerve = 1f;
+    private GameManager _gameManager;
 
-    private void Start()
-    {
-        
-    }
-    
     private void Awake()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         swerveInput = GetComponent<SwerveInput>();
     }
 
@@ -27,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
         float swerveAmount = swerveInput.MoveFactorX * swerveSpeed * Time.deltaTime;
         swerveAmount = Mathf.Clamp(swerveAmount, -maxSwerve, maxSwerve);
         transform.Translate(swerveAmount, 0, 0);
-        print(forwardForce);
     }
 
     private void FixedUpdate()
@@ -39,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (prb.position.y < 4f)
         {
-            FindObjectOfType<GameManager>().EndGame();
+            _gameManager.EndGame();
         }
     }
 }

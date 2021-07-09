@@ -9,10 +9,10 @@ public class PlayerCollision : MonoBehaviour
    
     private void OnCollisionEnter(Collision info)
     {
-        if (info.collider.tag == "Obstacle")
+        if (info.collider.CompareTag("Obstacle"))
         {
             movement.enabled = false;
-            FindObjectOfType<GameManager>().EndGame(); 
+            FindObjectOfType<GameManager>().EndGame();
         }
     }
 }
